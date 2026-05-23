@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moto Gymkhana 3D</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game"></canvas>
+
+      <section class="race-hud" aria-label="race status">
+        <div class="session-card">
+        <div class="session-top">
+          <span>Moto Gymkhana</span>
+          <strong id="runState">READY</strong>
+        </div>
+        <div class="cone-legend">
+          <span><i class="red"></i>赤 右回り</span>
+          <span><i class="green"></i>緑 左回り</span>
+        </div>
+        <ol class="ranking">
+            <li><span>1</span> H. Sato <b>58.842</b></li>
+            <li><span>2</span> Rider Pro <b>+0.614</b></li>
+            <li class="is-player"><span>3</span> You <b id="rankDelta">--.---</b></li>
+          </ol>
+        </div>
+
+        <div class="time-card">
+          <span>BEST 59.657</span>
+          <strong id="time">00.00</strong>
+          <em id="penalty">PEN 0</em>
+        </div>
+      </section>
+
+      <section class="ride-panel" aria-label="ride controls">
+        <div class="mode-row">
+          <button class="mode is-active" data-mode="with">リーンウィズ</button>
+          <button class="mode" data-mode="in">リーンイン</button>
+          <button class="mode" data-mode="out">リーンアウト</button>
+        </div>
+        <div class="inputs">
+          <div data-key="w"><kbd>W</kbd><span>加速</span></div>
+          <div data-key="s"><kbd>S</kbd><span>減速</span></div>
+          <div data-key="a"><kbd>A</kbd><span>左バンク</span></div>
+          <div data-key="d"><kbd>D</kbd><span>右バンク</span></div>
+          <div data-key="q"><kbd>Q</kbd><span>リーン左</span></div>
+          <div data-key="e"><kbd>E</kbd><span>リーン右</span></div>
+          <div data-key=" "><kbd>SP</kbd><span>リアブレーキ</span></div>
+          <div data-key="r"><kbd>R</kbd><span>復帰</span></div>
+        </div>
+      </section>
+
+      <section class="mini-map" aria-label="course map">
+        <svg viewBox="0 0 120 160" role="img">
+          <path class="map-road" d="M21 57 C18 34 42 23 63 25 C91 28 67 52 40 52 C18 53 22 75 31 92 C14 118 36 139 52 128 C59 112 63 82 82 66 C108 43 106 89 86 102 C111 120 100 144 80 132 C99 96 107 51 88 28 C66 17 38 25 21 57" />
+          <g id="mapCones"></g>
+          <circle id="mapBike" r="4" cx="60" cy="142" />
+        </svg>
+        <span>コース</span>
+      </section>
+
+      <section class="speedo" aria-label="speedometer">
+        <div class="dial">
+          <i class="needle" id="needle"></i>
+          <div class="dial-center"></div>
+          <span class="n n0">0</span>
+          <span class="n n1">30</span>
+          <span class="n n2">60</span>
+          <span class="n n3">90</span>
+          <span class="n n4">120</span>
+        </div>
+        <strong id="speed">0</strong>
+        <span>km/h</span>
+        <small id="bank">BANK 0</small>
+      </section>
+
+      <div class="toast is-visible" id="toast">白線からスタート</div>
+    </main>
+
+    <script type="module" src="./game.js"></script>
+  </body>
+</html>
