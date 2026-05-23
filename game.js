@@ -53,6 +53,10 @@ const yellowMat = new THREE.MeshStandardMaterial({ color: 0xf4c84e, roughness: 0
 const redMat = new THREE.MeshStandardMaterial({ color: 0xd9473f, roughness: 0.48 });
 const tireMat = new THREE.MeshStandardMaterial({ color: 0x111317, roughness: 0.7 });
 const metalMat = new THREE.MeshStandardMaterial({ color: 0x9ea8b7, roughness: 0.36, metalness: 0.45 });
+const rubberMat = new THREE.MeshStandardMaterial({ color: 0x0d0f11, roughness: 0.78 });
+const rimMat = new THREE.MeshStandardMaterial({ color: 0xc8d0d8, roughness: 0.32, metalness: 0.68 });
+const darkPaintMat = new THREE.MeshStandardMaterial({ color: 0x151b21, roughness: 0.44, metalness: 0.12 });
+const bluePaintMat = new THREE.MeshStandardMaterial({ color: 0x1e8bc3, roughness: 0.36, metalness: 0.18 });
 const smokeMat = new THREE.MeshBasicMaterial({ color: 0xd9dde0, transparent: true, opacity: 0.34, depthWrite: false });
 
 const grass = new THREE.Mesh(new THREE.PlaneGeometry(220, 170), grassMat);
@@ -255,23 +259,32 @@ for (let i = 0; i < 8; i += 1) {
 
 function makeBike() {
   const bike = new THREE.Group();
-  const body = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.28, 2.36), redMat);
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.24, 2.18), darkPaintMat);
   body.position.y = 0.96;
   body.rotation.x = -0.07;
   body.castShadow = true;
-  const tank = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.38, 0.86), yellowMat);
-  tank.position.set(0, 1.22, -0.22);
-  tank.rotation.x = -0.18;
+  const tank = new THREE.Mesh(new THREE.SphereGeometry(0.48, 28, 16), bluePaintMat);
+  tank.position.set(0, 1.2, -0.26);
+  tank.scale.set(1.0, 0.48, 1.35);
+  tank.rotation.x = -0.2;
   tank.castShadow = true;
+  const tankStripe = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.045, 1.1), yellowMat);
+  tankStripe.position.set(0, 1.43, -0.26);
+  tankStripe.rotation.x = -0.2;
+  tankStripe.castShadow = true;
   const frameMat = new THREE.MeshStandardMaterial({ color: 0x252a2f, roughness: 0.42, metalness: 0.35 });
   const engineMat = new THREE.MeshStandardMaterial({ color: 0x6f7780, roughness: 0.46, metalness: 0.62 });
   const headlight = new THREE.Mesh(new THREE.SphereGeometry(0.25, 24, 16), new THREE.MeshStandardMaterial({ color: 0xf6f0cf, roughness: 0.22, metalness: 0.05 }));
   headlight.position.set(0, 1.16, -1.34);
   headlight.scale.set(1, 0.9, 0.46);
   headlight.castShadow = true;
-  const engine = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.48, 0.62), engineMat);
+  const engine = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.36, 0.64, 20), engineMat);
   engine.position.set(0, 0.86, 0.06);
+  engine.rotation.z = Math.PI / 2;
   engine.castShadow = true;
+  const cylinderBlock = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.38, 0.3), engineMat);
+  cylinderBlock.position.set(0, 1.05, -0.12);
+  cylinderBlock.castShadow = true;
   const radiator = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.42, 0.08), frameMat);
   radiator.position.set(0, 1.0, -0.58);
   radiator.castShadow = true;
@@ -282,16 +295,35 @@ function makeBike() {
   const frameRight = frameLeft.clone();
   frameRight.position.x = 0.38;
   frameRight.rotation.z = -0.18;
-  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.18, 0.82), tireMat);
-  seat.position.set(0, 1.26, 0.5);
-  seat.rotation.x = 0.08;
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.16, 0.96), rubberMat);
+  seat.position.set(0, 1.25, 0.56);
+  seat.rotation.x = 0.04;
   seat.castShadow = true;
+  const tail = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.22, 0.58), bluePaintMat);
+  tail.position.set(0, 1.13, 1.15);
+  tail.rotation.x = 0.14;
+  tail.castShadow = true;
+  const tailLamp = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.12, 0.04), redMat);
+  tailLamp.position.set(0, 1.15, 1.47);
+  tailLamp.castShadow = true;
+  const plate = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.24, 0.035), lineMat);
+  plate.position.set(0, 0.88, 1.58);
+  plate.rotation.x = -0.32;
+  plate.castShadow = true;
 
   const wheelGeo = new THREE.TorusGeometry(0.42, 0.095, 14, 34);
-  const frontWheel = new THREE.Mesh(wheelGeo, tireMat);
+  const frontWheel = new THREE.Group();
+  const frontTire = new THREE.Mesh(wheelGeo, rubberMat);
+  frontTire.rotation.y = Math.PI / 2;
+  const frontRim = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.025, 8, 26), rimMat);
+  frontRim.rotation.y = Math.PI / 2;
+  const frontDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.025, 28), rimMat);
+  frontDisc.rotation.z = Math.PI / 2;
+  frontWheel.add(frontTire, frontRim, frontDisc);
   frontWheel.position.set(0, 0.48, -1.23);
-  frontWheel.rotation.y = Math.PI / 2;
-  frontWheel.castShadow = true;
+  frontWheel.traverse((part) => {
+    part.castShadow = true;
+  });
   const rearWheel = frontWheel.clone();
   rearWheel.position.z = 1.18;
   const fork = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.96, 0.12), metalMat);
@@ -306,9 +338,16 @@ function makeBike() {
   exhaust.position.set(-0.48, 0.98, 0.46);
   exhaust.rotation.set(Math.PI / 2, 0.25, 0);
   exhaust.castShadow = true;
-  const bar = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.1, 0.16), metalMat);
+  const bar = new THREE.Mesh(new THREE.BoxGeometry(1.28, 0.08, 0.12), metalMat);
   bar.position.set(0, 1.36, -1.02);
   bar.castShadow = true;
+  const leftMirror = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.11, 0.04), metalMat);
+  leftMirror.position.set(-0.68, 1.5, -1.12);
+  leftMirror.rotation.y = -0.35;
+  leftMirror.castShadow = true;
+  const rightMirror = leftMirror.clone();
+  rightMirror.position.x = 0.68;
+  rightMirror.rotation.y = 0.35;
   const riderMat = new THREE.MeshStandardMaterial({ color: 0x19232c, roughness: 0.52 });
   const suitAccentMat = new THREE.MeshStandardMaterial({ color: 0x21d8e7, roughness: 0.44, emissive: 0x06383e, emissiveIntensity: 0.25 });
   const protectorMat = new THREE.MeshStandardMaterial({ color: 0x11161d, roughness: 0.35, metalness: 0.08 });
@@ -370,8 +409,8 @@ function makeBike() {
   const rightKnee = leftKnee.clone();
   rightKnee.position.x = 0.44;
 
-  bike.add(body, tank, headlight, engine, radiator, frameLeft, frameRight, seat, frontWheel, rearWheel, fork, swingArm, exhaust, bar, rider, chest, backPad, spinePad, helmet, helmetStripe, visor, leftArm, rightArm, leftShoulder, rightShoulder, leftElbow, rightElbow, leftLeg, rightLeg, leftKnee, rightKnee);
-  bike.userData = { rider, helmet, helmetStripe, visor, leftArm, rightArm, leftLeg, rightLeg, leftShoulder, rightShoulder, leftElbow, rightElbow, leftKnee, rightKnee, frontWheel, rearWheel };
+  bike.add(body, tank, tankStripe, headlight, engine, cylinderBlock, radiator, frameLeft, frameRight, seat, tail, tailLamp, plate, frontWheel, rearWheel, fork, swingArm, exhaust, bar, leftMirror, rightMirror, rider, chest, backPad, spinePad, helmet, helmetStripe, visor, leftArm, rightArm, leftShoulder, rightShoulder, leftElbow, rightElbow, leftLeg, rightLeg, leftKnee, rightKnee);
+  bike.userData = { rider, helmet, helmetStripe, visor, leftArm, rightArm, leftLeg, rightLeg, leftShoulder, rightShoulder, leftElbow, rightElbow, leftKnee, rightKnee, frontWheel, rearWheel, frontTire, frontRim, rearTire: rearWheel.children[0], rearRim: rearWheel.children[1], fork, bar };
   return bike;
 }
 
@@ -411,6 +450,12 @@ const state = {
   z: 12,
   heading: Math.PI,
   speed: 0,
+  throttle: 0,
+  brake: 0,
+  steer: 0,
+  yawRate: 0,
+  leanRate: 0,
+  frontSteer: 0,
   rearSlip: 0,
   travelHeading: 0,
   bank: 0,
@@ -448,6 +493,12 @@ function restart() {
     z: 12,
     heading: Math.PI,
     speed: 0,
+    throttle: 0,
+    brake: 0,
+    steer: 0,
+    yawRate: 0,
+    leanRate: 0,
+    frontSteer: 0,
     rearSlip: 0,
     travelHeading: 0,
     bank: 0,
@@ -491,6 +542,8 @@ function crash(reason) {
   state.finished = true;
   state.speed *= 0.18;
   state.fallSide = Math.sign(state.bank || state.leanBias || 1);
+  state.leanRate = 0;
+  state.yawRate = 0;
   state.restartTimer = 2.4;
   runStateEl.textContent = "DNF";
   showToast(`${reason} / 自動再開`);
@@ -571,33 +624,47 @@ function updatePhysics(dt) {
   const throttle = keys.has("w") || keys.has("arrowup") ? 1 : 0;
   const brake = keys.has("s") || keys.has("arrowdown") ? 1 : 0;
   const rearBrake = keys.has(" ") ? 1 : 0;
-  const steer = (keys.has("a") || keys.has("arrowleft") ? 1 : 0) - (keys.has("d") || keys.has("arrowright") ? 1 : 0);
-  const leanInput = (keys.has("q") ? 1 : 0) - (keys.has("e") ? 1 : 0);
+  const steer = (keys.has("d") || keys.has("arrowright") ? 1 : 0) - (keys.has("a") || keys.has("arrowleft") ? 1 : 0);
+  const leanInput = (keys.has("e") ? 1 : 0) - (keys.has("q") ? 1 : 0);
 
-  state.speed += throttle * 7.2 * dt;
-  state.speed -= brake * 10.8 * dt;
-  state.speed -= rearBrake * 3.4 * dt;
-  state.speed -= Math.sign(state.speed) * 1.35 * dt;
-  state.speed = THREE.MathUtils.clamp(state.speed, -1.6, 13.8);
+  state.throttle = THREE.MathUtils.damp(state.throttle, throttle, 7, dt);
+  state.brake = THREE.MathUtils.damp(state.brake, brake + rearBrake * 0.65, 9, dt);
+  state.steer = THREE.MathUtils.damp(state.steer, steer, 6.2, dt);
 
-  const speedFactor = THREE.MathUtils.clamp(Math.abs(state.speed) / 5.8, 0.18, 1);
-  const targetBank = steer * THREE.MathUtils.degToRad(45) * speedFactor + leanInput * THREE.MathUtils.degToRad(5);
-  state.bank = THREE.MathUtils.damp(state.bank, targetBank, 5.2, dt);
-  state.leanBias = THREE.MathUtils.damp(state.leanBias, leanInput * THREE.MathUtils.degToRad(13), 5.8, dt);
+  const drag = 0.18 * state.speed * Math.abs(state.speed) + 0.92 * state.speed;
+  const engineForce = state.throttle * 8.5 * (1 - THREE.MathUtils.clamp(Math.abs(state.speed) / 19, 0, 0.55));
+  const brakeForce = state.brake * 12.5 * Math.sign(Math.max(0.2, state.speed));
+  state.speed += (engineForce - brakeForce - drag) * dt;
+  state.speed = THREE.MathUtils.clamp(state.speed, -1.4, 15.2);
 
-  const modeGain = state.mode === "in" ? 1.08 : state.mode === "out" ? 0.78 : 0.92;
-  const leanOutAssist = state.mode === "out" ? -Math.sign(state.bank) * 0.14 : 0;
+  const speedAbs = Math.abs(state.speed);
+  const speedFactor = THREE.MathUtils.clamp(speedAbs / 7.2, 0.12, 1);
+  const maxLean = THREE.MathUtils.degToRad(54);
+  const targetBank = -(state.steer * THREE.MathUtils.degToRad(49) * speedFactor + leanInput * THREE.MathUtils.degToRad(8));
+  const leanAccel = (targetBank - state.bank) * 18 - state.leanRate * 6.5;
+  state.leanRate += leanAccel * dt;
+  state.bank += state.leanRate * dt;
+  state.bank = THREE.MathUtils.clamp(state.bank, -maxLean, maxLean);
+  state.leanBias = THREE.MathUtils.damp(state.leanBias, -leanInput * THREE.MathUtils.degToRad(13), 5.8, dt);
+  state.frontSteer = THREE.MathUtils.damp(state.frontSteer, state.steer * THREE.MathUtils.degToRad(24) - state.bank * 0.18, 9, dt);
+
+  const modeGain = state.mode === "in" ? 1.06 : state.mode === "out" ? 0.82 : 0.94;
   const slideDemand = THREE.MathUtils.clamp(
-    (Math.abs(THREE.MathUtils.radToDeg(state.bank)) - 28) / 34 + rearBrake * 0.72 + throttle * Math.abs(steer) * 0.18,
+    (Math.abs(THREE.MathUtils.radToDeg(state.bank)) - 31) / 35 + rearBrake * 0.68 + state.throttle * Math.abs(state.steer) * 0.16,
     0,
     1,
   ) * THREE.MathUtils.clamp(Math.abs(state.speed) / 5.2, 0, 1);
   state.rearSlip = THREE.MathUtils.damp(state.rearSlip, slideDemand, rearBrake ? 7 : 4.2, dt);
 
-  const turnRate = Math.sin(state.bank) * modeGain * (0.46 + Math.abs(state.speed) * 0.066) + leanOutAssist + state.rearSlip * Math.sign(state.bank || steer) * 0.38;
-  state.heading += turnRate * dt * Math.sign(Math.max(0.2, state.speed));
+  const gravity = 9.8;
+  const speedForYaw = Math.max(2.0, speedAbs);
+  const leanYaw = (gravity * Math.tan(state.bank) / speedForYaw) * modeGain;
+  const lowSpeedYaw = -state.frontSteer * THREE.MathUtils.clamp(speedAbs / 4.5, 0, 1) * 1.15;
+  const slideYaw = state.rearSlip * Math.sign(state.bank || -state.steer) * 0.28;
+  state.yawRate = THREE.MathUtils.damp(state.yawRate, leanYaw + lowSpeedYaw + slideYaw, 5.5, dt);
+  state.heading += state.yawRate * dt * Math.sign(Math.max(0.2, state.speed));
 
-  state.travelHeading = state.heading - state.rearSlip * Math.sign(state.bank || steer) * 0.36;
+  state.travelHeading = state.heading - state.rearSlip * Math.sign(state.bank || -state.steer) * 0.28;
   state.x -= Math.sin(state.travelHeading) * state.speed * dt;
   state.z -= Math.cos(state.travelHeading) * state.speed * dt;
 
@@ -715,23 +782,27 @@ function updateBike(dt) {
     bike.rotation.z = THREE.MathUtils.damp(bike.rotation.z, -state.fallSide * 1.42, 5.8, dt);
   } else {
     bike.rotation.x = THREE.MathUtils.damp(bike.rotation.x, 0, 9, dt);
-    bike.rotation.z = THREE.MathUtils.damp(bike.rotation.z, -state.bank, 12, dt);
+    bike.rotation.z = THREE.MathUtils.damp(bike.rotation.z, state.bank, 12, dt);
   }
 
-  const riderOffset = state.mode === "out" ? -state.bank * 0.72 : state.mode === "in" ? state.bank * 0.42 : 0;
+  const riderOffset = state.mode === "out" ? state.bank * 0.72 : state.mode === "in" ? -state.bank * 0.42 : 0;
   bike.userData.rider.position.x = THREE.MathUtils.damp(bike.userData.rider.position.x, riderOffset + state.leanBias * 0.9, 8, dt);
   bike.userData.helmet.position.x = THREE.MathUtils.damp(bike.userData.helmet.position.x, riderOffset + state.leanBias * 1.1, 8, dt);
   bike.userData.helmetStripe.position.x = bike.userData.helmet.position.x;
   bike.userData.visor.position.x = bike.userData.helmet.position.x;
   bike.userData.leftArm.position.x = THREE.MathUtils.damp(bike.userData.leftArm.position.x, -0.33 + riderOffset * 0.55, 8, dt);
   bike.userData.rightArm.position.x = THREE.MathUtils.damp(bike.userData.rightArm.position.x, 0.33 + riderOffset * 0.55, 8, dt);
-  bike.userData.leftLeg.position.x = THREE.MathUtils.damp(bike.userData.leftLeg.position.x, -0.35 - state.bank * 0.36, 8, dt);
-  bike.userData.rightLeg.position.x = THREE.MathUtils.damp(bike.userData.rightLeg.position.x, 0.35 - state.bank * 0.36, 8, dt);
+  bike.userData.leftLeg.position.x = THREE.MathUtils.damp(bike.userData.leftLeg.position.x, -0.35 + state.bank * 0.34, 8, dt);
+  bike.userData.rightLeg.position.x = THREE.MathUtils.damp(bike.userData.rightLeg.position.x, 0.35 + state.bank * 0.34, 8, dt);
   bike.userData.leftKnee.position.x = bike.userData.leftLeg.position.x - 0.09;
   bike.userData.rightKnee.position.x = bike.userData.rightLeg.position.x + 0.09;
-  bike.userData.frontWheel.rotation.x -= state.speed * dt * 2.6;
-  bike.userData.rearWheel.rotation.x -= state.speed * dt * (2.6 + state.rearSlip * 3.2);
-  bike.userData.frontWheel.rotation.z = state.bank * 0.18 + state.rearSlip * Math.sign(state.bank || 1) * 0.34;
+  bike.userData.frontTire.rotation.x -= state.speed * dt * 2.6;
+  bike.userData.frontRim.rotation.x -= state.speed * dt * 2.6;
+  bike.userData.rearTire.rotation.x -= state.speed * dt * (2.6 + state.rearSlip * 3.2);
+  bike.userData.rearRim.rotation.x -= state.speed * dt * (2.6 + state.rearSlip * 3.2);
+  bike.userData.frontWheel.rotation.y = state.frontSteer;
+  bike.userData.fork.rotation.y = state.frontSteer * 0.55;
+  bike.userData.bar.rotation.y = state.frontSteer * 0.65;
 }
 
 function updateCamera(dt) {
