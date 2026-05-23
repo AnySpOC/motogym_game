@@ -351,66 +351,75 @@ function makeBike() {
   const riderMat = new THREE.MeshStandardMaterial({ color: 0x19232c, roughness: 0.52 });
   const suitAccentMat = new THREE.MeshStandardMaterial({ color: 0x21d8e7, roughness: 0.44, emissive: 0x06383e, emissiveIntensity: 0.25 });
   const protectorMat = new THREE.MeshStandardMaterial({ color: 0x11161d, roughness: 0.35, metalness: 0.08 });
+  const riderRoot = new THREE.Group();
+  riderRoot.position.set(0, 0, 0);
   const rider = new THREE.Mesh(new THREE.CapsuleGeometry(0.23, 0.72, 8, 16), riderMat);
-  rider.position.set(0, 1.7, -0.02);
-  rider.rotation.x = 0.78;
+  rider.position.set(0, 1.62, -0.02);
+  rider.rotation.x = 0.56;
   rider.castShadow = true;
   const chest = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.16, 0.42), suitAccentMat);
-  chest.position.set(0, 1.75, -0.28);
-  chest.rotation.x = 0.76;
+  chest.position.set(0, 1.66, -0.24);
+  chest.rotation.x = 0.56;
   chest.castShadow = true;
   const backPad = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.13, 0.5), suitAccentMat);
-  backPad.position.set(0, 1.77, 0.1);
-  backPad.rotation.x = 0.62;
+  backPad.position.set(0, 1.68, 0.08);
+  backPad.rotation.x = 0.5;
   backPad.castShadow = true;
   const spinePad = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.08, 0.58), protectorMat);
-  spinePad.position.set(0, 1.79, 0.18);
-  spinePad.rotation.x = 0.62;
+  spinePad.position.set(0, 1.7, 0.18);
+  spinePad.rotation.x = 0.5;
   spinePad.castShadow = true;
   const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.24, 24, 16), new THREE.MeshStandardMaterial({ color: 0x17212b, roughness: 0.38 }));
-  helmet.position.set(0, 2.08, -0.42);
+  helmet.position.set(0, 2.05, -0.42);
   helmet.castShadow = true;
   const helmetStripe = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.08, 0.42), suitAccentMat);
-  helmetStripe.position.set(0, 2.22, -0.42);
+  helmetStripe.position.set(0, 2.2, -0.42);
   helmetStripe.castShadow = true;
   const visor = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.1, 0.04), new THREE.MeshStandardMaterial({ color: 0x101419, roughness: 0.2 }));
-  visor.position.set(0, 2.08, -0.64);
+  visor.position.set(0, 2.04, -0.64);
   visor.castShadow = true;
   const leftArm = new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.58, 6, 10), suitAccentMat);
-  leftArm.position.set(-0.33, 1.48, -0.58);
-  leftArm.rotation.set(1.12, 0.08, -0.32);
+  leftArm.position.set(-0.34, 1.45, -0.6);
+  leftArm.rotation.set(1.24, 0.06, -0.22);
   leftArm.castShadow = true;
   const rightArm = leftArm.clone();
   rightArm.position.x = 0.33;
-  rightArm.rotation.z = 0.32;
+  rightArm.rotation.z = 0.22;
   const leftShoulder = new THREE.Mesh(new THREE.SphereGeometry(0.12, 14, 10), protectorMat);
-  leftShoulder.position.set(-0.27, 1.78, -0.25);
+  leftShoulder.position.set(-0.28, 1.72, -0.2);
   leftShoulder.scale.set(1.2, 0.75, 0.9);
   leftShoulder.castShadow = true;
   const rightShoulder = leftShoulder.clone();
   rightShoulder.position.x = 0.27;
   const leftElbow = new THREE.Mesh(new THREE.SphereGeometry(0.09, 12, 8), protectorMat);
-  leftElbow.position.set(-0.45, 1.36, -0.56);
+  leftElbow.position.set(-0.43, 1.35, -0.58);
   leftElbow.scale.set(1, 0.7, 0.9);
   leftElbow.castShadow = true;
   const rightElbow = leftElbow.clone();
   rightElbow.position.x = 0.45;
   const leftLeg = new THREE.Mesh(new THREE.CapsuleGeometry(0.075, 0.7, 6, 10), suitAccentMat);
-  leftLeg.position.set(-0.35, 1.12, 0.32);
-  leftLeg.rotation.set(0.68, -0.08, -0.38);
+  leftLeg.position.set(-0.34, 1.1, 0.26);
+  leftLeg.rotation.set(0.82, -0.04, -0.22);
   leftLeg.castShadow = true;
   const rightLeg = leftLeg.clone();
   rightLeg.position.x = 0.35;
-  rightLeg.rotation.z = 0.38;
+  rightLeg.rotation.z = 0.22;
   const leftKnee = new THREE.Mesh(new THREE.SphereGeometry(0.11, 14, 10), protectorMat);
-  leftKnee.position.set(-0.44, 0.95, -0.02);
+  leftKnee.position.set(-0.42, 0.96, -0.04);
   leftKnee.scale.set(1.1, 0.6, 0.9);
   leftKnee.castShadow = true;
   const rightKnee = leftKnee.clone();
   rightKnee.position.x = 0.44;
+  const leftBoot = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.1, 0.32), protectorMat);
+  leftBoot.position.set(-0.38, 0.78, -0.3);
+  leftBoot.rotation.x = 0.25;
+  leftBoot.castShadow = true;
+  const rightBoot = leftBoot.clone();
+  rightBoot.position.x = 0.38;
 
-  bike.add(body, tank, tankStripe, headlight, engine, cylinderBlock, radiator, frameLeft, frameRight, seat, tail, tailLamp, plate, frontWheel, rearWheel, fork, swingArm, exhaust, bar, leftMirror, rightMirror, rider, chest, backPad, spinePad, helmet, helmetStripe, visor, leftArm, rightArm, leftShoulder, rightShoulder, leftElbow, rightElbow, leftLeg, rightLeg, leftKnee, rightKnee);
-  bike.userData = { rider, helmet, helmetStripe, visor, leftArm, rightArm, leftLeg, rightLeg, leftShoulder, rightShoulder, leftElbow, rightElbow, leftKnee, rightKnee, frontWheel, rearWheel, frontTire, frontRim, rearTire: rearWheel.children[0], rearRim: rearWheel.children[1], fork, bar };
+  riderRoot.add(rider, chest, backPad, spinePad, helmet, helmetStripe, visor, leftArm, rightArm, leftShoulder, rightShoulder, leftElbow, rightElbow, leftLeg, rightLeg, leftKnee, rightKnee, leftBoot, rightBoot);
+  bike.add(body, tank, tankStripe, headlight, engine, cylinderBlock, radiator, frameLeft, frameRight, seat, tail, tailLamp, plate, frontWheel, rearWheel, fork, swingArm, exhaust, bar, leftMirror, rightMirror, riderRoot);
+  bike.userData = { riderRoot, rider, helmet, helmetStripe, visor, leftArm, rightArm, leftLeg, rightLeg, leftShoulder, rightShoulder, leftElbow, rightElbow, leftKnee, rightKnee, leftBoot, rightBoot, frontWheel, rearWheel, frontTire, frontRim, rearTire: rearWheel.children[0], rearRim: rearWheel.children[1], fork, bar };
   return bike;
 }
 
@@ -467,6 +476,7 @@ const state = {
   elapsed: 0,
   penalty: 0,
   nextGate: 1,
+  offCourseTime: 0,
   overbankTime: 0,
   fallSide: 1,
   restartTimer: 0,
@@ -509,6 +519,7 @@ function restart() {
     elapsed: 0,
     penalty: 0,
     nextGate: 1,
+    offCourseTime: 0,
     overbankTime: 0,
     fallSide: 1,
     restartTimer: 0,
@@ -692,11 +703,11 @@ function updatePhysics(dt) {
   }
 
   if (Math.abs(state.x) > 48 || Math.abs(state.z) > 50) {
-    state.penalty += state.started ? 10 : 0;
+    state.penalty += state.started ? 3 : 0;
     state.speed *= 0.35;
     state.x = THREE.MathUtils.clamp(state.x, -49, 49);
     state.z = THREE.MathUtils.clamp(state.z, -51, 51);
-    showToast("+10 コースアウト");
+    showToast("+3 コースアウト");
   }
 }
 
@@ -747,8 +758,8 @@ function updateCourse(dt) {
       cone.rotation.x = cone.userData.fallZ * THREE.MathUtils.degToRad(82);
       cone.rotation.z = -cone.userData.fallX * THREE.MathUtils.degToRad(82);
       cone.scale.setScalar(0.92);
-      state.penalty += 5;
-      showToast("+5 パイロン接触");
+      state.penalty += 1;
+      showToast("+1 パイロン接触");
     } else if (cone.userData.hit) {
       const targetX = cone.userData.fallZ * THREE.MathUtils.degToRad(82);
       const targetZ = -cone.userData.fallX * THREE.MathUtils.degToRad(82);
@@ -760,8 +771,17 @@ function updateCourse(dt) {
   const gate = coursePoints[state.nextGate];
   if (gate) {
     const distance = Math.hypot(gate[0] - state.x, gate[1] - state.z);
+    if (state.started && distance > 26 && Math.abs(state.speed) > 1) {
+      state.offCourseTime += dt;
+      if (state.offCourseTime > 2.2) {
+        crash("ミスコース");
+      }
+    } else {
+      state.offCourseTime = Math.max(0, state.offCourseTime - dt * 1.5);
+    }
     if (distance < 4.4) {
       state.nextGate += 1;
+      state.offCourseTime = 0;
       if (state.nextGate >= coursePoints.length) {
         state.finished = true;
         runStateEl.textContent = "FINISH";
@@ -786,16 +806,11 @@ function updateBike(dt) {
   }
 
   const riderOffset = state.mode === "out" ? state.bank * 0.72 : state.mode === "in" ? -state.bank * 0.42 : 0;
-  bike.userData.rider.position.x = THREE.MathUtils.damp(bike.userData.rider.position.x, riderOffset + state.leanBias * 0.9, 8, dt);
-  bike.userData.helmet.position.x = THREE.MathUtils.damp(bike.userData.helmet.position.x, riderOffset + state.leanBias * 1.1, 8, dt);
-  bike.userData.helmetStripe.position.x = bike.userData.helmet.position.x;
-  bike.userData.visor.position.x = bike.userData.helmet.position.x;
-  bike.userData.leftArm.position.x = THREE.MathUtils.damp(bike.userData.leftArm.position.x, -0.33 + riderOffset * 0.55, 8, dt);
-  bike.userData.rightArm.position.x = THREE.MathUtils.damp(bike.userData.rightArm.position.x, 0.33 + riderOffset * 0.55, 8, dt);
-  bike.userData.leftLeg.position.x = THREE.MathUtils.damp(bike.userData.leftLeg.position.x, -0.35 + state.bank * 0.34, 8, dt);
-  bike.userData.rightLeg.position.x = THREE.MathUtils.damp(bike.userData.rightLeg.position.x, 0.35 + state.bank * 0.34, 8, dt);
-  bike.userData.leftKnee.position.x = bike.userData.leftLeg.position.x - 0.09;
-  bike.userData.rightKnee.position.x = bike.userData.rightLeg.position.x + 0.09;
+  bike.userData.riderRoot.position.x = THREE.MathUtils.damp(bike.userData.riderRoot.position.x, riderOffset + state.leanBias * 0.65, 7, dt);
+  bike.userData.riderRoot.rotation.z = THREE.MathUtils.damp(bike.userData.riderRoot.rotation.z, -riderOffset * 0.4, 7, dt);
+  bike.userData.riderRoot.rotation.x = THREE.MathUtils.damp(bike.userData.riderRoot.rotation.x, Math.abs(state.speed) * 0.006, 5, dt);
+  bike.userData.leftLeg.rotation.z = THREE.MathUtils.damp(bike.userData.leftLeg.rotation.z, -0.22 + state.bank * 0.18, 7, dt);
+  bike.userData.rightLeg.rotation.z = THREE.MathUtils.damp(bike.userData.rightLeg.rotation.z, 0.22 + state.bank * 0.18, 7, dt);
   bike.userData.frontTire.rotation.x -= state.speed * dt * 2.6;
   bike.userData.frontRim.rotation.x -= state.speed * dt * 2.6;
   bike.userData.rearTire.rotation.x -= state.speed * dt * (2.6 + state.rearSlip * 3.2);
