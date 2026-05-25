@@ -1,8 +1,9 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { extname, join, resolve } from "node:path";
+import { dirname, extname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = resolve("C:/app/motogym_game");
+const root = dirname(fileURLToPath(import.meta.url));
 const port = Number.parseInt(process.env.PORT ?? "4173", 10);
 const host = process.env.HOST ?? "0.0.0.0";
 const types = {
@@ -31,5 +32,6 @@ createServer(async (request, response) => {
     response.end("Not found");
   }
 }).listen(port, host, () => {
-  console.log(`Moto Gymkhana 3D: http://${host}:${port}`);
+  const displayHost = host === "0.0.0.0" ? "127.0.0.1" : host;
+  console.log(`Moto Gymkhana 3D: http://${displayHost}:${port}`);
 });
